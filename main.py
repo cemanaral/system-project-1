@@ -53,6 +53,15 @@ def increment(binary: str):
         list_binary[-1] = '1'
         return ''.join(list_binary)
 
+    # Starts from rightmost and loops until including first element
+    for i in range(len(list_binary)-1, -1, -1):
+        bit = list_binary[i]
+        if bit == '1':
+            list_binary[i] = '0'
+        else: # if 0
+            list_binary[i] = '1'
+            break
+
     return ''.join(list_binary)
 
 
