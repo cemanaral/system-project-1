@@ -33,7 +33,7 @@ def unsigned_to_binary(number: str):
     return binary
     
 def take_complement(binary: str):
-    "Takes complement of binary number"
+    """Takes complement of binary number"""
     list_binary = list(binary)
 
     for i in range(len(list_binary)):
@@ -42,6 +42,17 @@ def take_complement(binary: str):
             list_binary[i] = '1'
         else:
             list_binary[i] = '0'
+    return ''.join(list_binary)
+
+def increment(binary: str):
+    """Increments binary number"""
+    list_binary = list(binary)
+    
+    # If rightmost bit is 0, change it to 1 and return
+    if list_binary[-1] == '0':
+        list_binary[-1] = '1'
+        return ''.join(list_binary)
+
     return ''.join(list_binary)
 
 
