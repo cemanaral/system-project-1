@@ -48,11 +48,6 @@ def increment(binary: str):
     """Increments binary number"""
     list_binary = list(binary)
     
-    # If rightmost bit is 0, change it to 1 and return
-    if list_binary[-1] == '0':
-        list_binary[-1] = '1'
-        return ''.join(list_binary)
-
     # Starts from rightmost and loops until including first element
     for i in range(len(list_binary)-1, -1, -1):
         bit = list_binary[i]
