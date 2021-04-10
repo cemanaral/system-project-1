@@ -18,7 +18,7 @@ def unsigned_to_binary(number: str):
     binary = ''
 
     # Conversion algorithm
-    decimal = int(number.rstrip('u'))
+    decimal = int(number.rstrip('u\n'))
     while decimal > 0:
         binary = str(decimal % 2) + binary
         decimal = int(decimal // 2)
@@ -38,17 +38,20 @@ def unsigned_to_binary(number: str):
 def evaluate(line, byte_ordering, float_size):
     """Evaluates read line"""
 
+    print("------------------------------------------------")
     if is_unsigned(line):
-        print("Unsigned int: ", end='')
+        print("Decimal Unsigned int:\t", line.strip())
+        print("Binary Unsigned int:\t", unsigned_to_binary(line))
+        
     
     elif is_float(line):
-        print("Float: ", end='')
+        print("Decimal Float:", line)
     
     # Else, signed int
     else:
-        print("Signed int: ", end='')
+        print("Decimal Signed int:", line)
+    print("------------------------------------------------")
     
-    print(line)
 
 
 def main():
