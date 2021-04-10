@@ -3,9 +3,11 @@
 
 INPUT_FILE = "input.txt"
 
-# Lambda functions for evaluation
+# Lambda functions for checks
 isUnsignedInt = lambda line: 'u' in line
 isFloat       = lambda line: '.' in line
+isBigEnd      = lambda symbol: symbol == 'b'
+isLittleEnd   = lambda symbol: symbol == 'l'
 
 
 def evaluate(line):
@@ -22,16 +24,21 @@ def evaluate(line):
     print(line)
 
 
+def main():
+    print("Systems Programming Assignment 1")
+ 
+    byte_ordering = input("Please enter byte ordering type (l: little endian b: big endian)\n? ")
 
-def readFile():
-    """Reads INPUT_FILE"""
+    # If input is invalid
+    if not isLittleEnd(byte_ordering) and not isBigEnd(byte_ordering):
+        raise ValueError("Invalid byte ordering type")
+
+
+    # Reads INPUT_FILE
     with open(INPUT_FILE) as file:
         for line in file:
             evaluate(line)
 
-
-def main():
-    readFile()    
 
 if __name__ == '__main__':
     main()
