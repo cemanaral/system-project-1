@@ -33,48 +33,39 @@ def unsigned_to_binary(number: str):
     return binary
     
 
-def take_complement(binary: str):
+def take_complement(binary_list: str):
     """Takes complement of binary number"""
-    list_binary = list(binary)
-
-    for i in range(len(list_binary)):
-        bit = list_binary[i]
+    for i in range(len(binary_list)):
+        bit = binary_list[i]
         if bit == '0':
-            list_binary[i] = '1'
+            binary_list[i] = '1'
         else:
-            list_binary[i] = '0'
-    return ''.join(list_binary)
+            binary_list[i] = '0'
 
 
-def increment(binary: str):
+
+def increment(binary_list: list):
     """Increments binary number"""
-    list_binary = list(binary)
     
     # Starts from rightmost and loops until including first element
-    for i in range(len(list_binary)-1, -1, -1):
-        bit = list_binary[i]
+    for i in range(len(binary_list)-1, -1, -1):
+        bit = binary_list[i]
         if bit == '1':
-            list_binary[i] = '0'
+            binary_list[i] = '0'
         else: # if 0
-            list_binary[i] = '1'
+            binary_list[i] = '1'
             break
 
-    return ''.join(list_binary)
 
 
 
 def signed_to_binary(number: str):
     """Converts base-10 signed int to binary (two's complement) using 'Subtract Powers of Two' method"""
 
-    # If number is positive or zero
-    if not is_negative(number): 
-        return '0' + unsigned_to_binary(number)[1:]
-
-    # if number is negative
-    binary_list = ['_'] * (INT_SIZE_BITS - 1) # -1 is because we insert 1 in the end
+    binary_list = ['0'] * (INT_SIZE_BITS)
     decimal = int(number.strip())
-    magnitude = - decimal   # Find magnitude of decimal number
-    i = -1                  # index
+    magnitude = -decimal if is_negative(number) else decimal # Find magnitude of decimal number
+    i = -1  # index
 
     # Keep dividing by two until answer is zero
     while magnitude != 0:
@@ -83,11 +74,11 @@ def signed_to_binary(number: str):
         magnitude = int(magnitude // 2)
         i -= 1
 
-    binary_str = take_complement(''.join(binary_list))
-    binary_str = increment(binary_str)
+    # if original number was negative, take complement and add 1
+    if is_negative(number):
+        take_complement(binary_list)
+        increment(binary_list)    
 
-    binary_list = list(binary_str)
-    binary_list.insert(0, '1')    # since number is negative
     return ''.join(binary_list)
 
 
@@ -115,7 +106,8 @@ def evaluate(line, byte_ordering, float_size):
 
 
 def main():
-    print("Systems Programming Assignment 1")
+    print("**Systems Programming Assignment 1**")
+    print("Cem Anaral")
  
     byte_ordering = input("Please enter byte ordering type (l: little endian b: big endian)\n? ")
     float_size = int(input("Please enter float size in bytes (1, 2, 3, 4)\n? "))
