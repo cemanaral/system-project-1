@@ -23,12 +23,13 @@ def unsigned_to_binary(number: str):
         binary = str(decimal % 2) + binary
         decimal = int(decimal // 2)
 
-    # If sizes does not fit 
-    
-    if len(binary) != INT_SIZE_BITS:
+    # If sizes are not equal adds zeros to left
+    if len(binary) < INT_SIZE_BITS:
         left_zeros = (INT_SIZE_BITS - len(binary)) * '0'
         binary = left_zeros + binary
-    
+    # If input is bigger than UMax
+    elif len(binary) > INT_SIZE_BITS:
+        raise OverflowError(f"{number} can not be represented in {INT_SIZE} bytes.")
 
     return binary
     
