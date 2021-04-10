@@ -5,7 +5,7 @@ INPUT_FILE     = "input.txt"     # Name of the input file which will be taken as
 INT_SIZE       = 2               # Default size for integers is 2 bytes
 INT_SIZE_BITS  = INT_SIZE * 8    # Integer size in bits
 
-# Lambda functions for checks
+# Lambda functions for typechecks
 is_unsigned    = lambda line: 'u' in line
 is_float       = lambda line: '.' in line
 is_big_end     = lambda symbol: symbol == 'b'
@@ -32,6 +32,7 @@ def unsigned_to_binary(number: str):
         raise OverflowError(f"{number} can not be represented in {INT_SIZE} bytes.")
     return binary
     
+
 def take_complement(binary: str):
     """Takes complement of binary number"""
     list_binary = list(binary)
@@ -43,6 +44,7 @@ def take_complement(binary: str):
         else:
             list_binary[i] = '0'
     return ''.join(list_binary)
+
 
 def increment(binary: str):
     """Increments binary number"""
@@ -60,6 +62,7 @@ def increment(binary: str):
     return ''.join(list_binary)
 
 
+
 def signed_to_binary(number: str):
     """Converts base-10 signed int to binary (two's complement) using 'Subtract Powers of Two' method"""
 
@@ -68,12 +71,27 @@ def signed_to_binary(number: str):
         return '0' + unsigned_to_binary(number)[1:]
 
     # if number is negative
-    binary = ['_'] * INT_SIZE_BITS
-    binary[0] = '1'
+    binary_list = ['_'] * (INT_SIZE_BITS - 1) # -1 is because we insert 1 in the end
     decimal = int(number.strip())
+    magnitude = - decimal   # Find magnitude of decimal number
+    i = -1                  # index
+
+    # Keep dividing by two until answer is zero
+    while magnitude != 0:
+        remainder = magnitude % 2
+        binary_list[i] = str(remainder)
+        magnitude = int(magnitude // 2)
+        i -= 1
+
+    binary_str = take_complement(''.join(binary_list))
+    binary_str = increment(binary_str)
+
+    binary_list = list(binary_str)
+    binary_list.insert(0, '1')    # since number is negative
+    return ''.join(binary_list)
 
 
-    return ''.join(binary)
+
 
 def evaluate(line, byte_ordering, float_size):
     """Evaluates read line"""
