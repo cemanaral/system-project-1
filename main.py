@@ -119,9 +119,23 @@ def binary_to_decimal(binary: str) -> int:
 
 def binary_to_hex(binary: str) -> str:
     """Converts binary number to hexadecimal"""
-    hexadecimal = ''
+    hex_dict = {10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F' }   # Key: decimal, Value: hexadecimal
+    result = ''
 
-
+    # Split binary into 4 parts
+    for i in range(0, len(binary), 4):
+        substring = binary[i: i+4]
+        decimal = binary_to_decimal(substring)
+        
+        # Conversion to hexadecimal
+        if decimal > 9:
+            hex_value = hex_dict[decimal]
+        else:
+            hex_value = str(decimal)
+        result = result + hex_value
+    
+    # Adds spaces between every byte (2 hex characters)
+    return ' '.join( [result[i: i+2] for i in range(0, len(result), 2) ] )
 
 
 def main():
