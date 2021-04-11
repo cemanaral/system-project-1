@@ -2,6 +2,7 @@
 
 # Global variables to reduce boilerplate parameters
 INPUT_FILE     = "input.txt"     # Name of the input file which will be taken as input
+OUTPUT_FILE    = "output.txt"
 INT_SIZE       = 2               # Default size for integers is 2 bytes
 INT_SIZE_BITS  = INT_SIZE * 8    # Integer size in bits
 
@@ -86,25 +87,26 @@ def signed_to_binary(number: str):
 
 
 
-def evaluate(line, byte_ordering, float_size):
+def evaluate(line, byte_ordering, float_size, result_list):
     """Evaluates read line"""
+    result = ''
 
-    print("------------------------------------------------")
     if is_unsigned(line):
-        print("Decimal Unsigned int:\t", line.strip())
-        print("Binary Unsigned int:\t", unsigned_to_binary(line))
-        
+        result = binary_to_hex(unsigned_to_binary(line))    
     
     elif is_float(line):
-        print("Decimal Float:", line)
+        result = '_'
     
     # Else, signed int
     else:
-        print("Decimal Signed int:\t", line.strip())
-        print("Binary Signed int:\t", signed_to_binary(line))
+        result = binary_to_hex(signed_to_binary(line))
     
-    print("------------------------------------------------")
+    if is_little_end(byte_ordering):
+        result = big_to_little(result)
     
+    result_list.append(result)
+
+
 
 def binary_to_decimal(binary: str) -> int:
     """Converts binary to decimal"""
@@ -153,11 +155,21 @@ def main():
     if not (1 <= float_size <= 4):
         raise ValueError("Invalid float size")
 
+    # Evaluation results will be appended to this list
+    # which will be later used for output.txt
+    result_list = []
+
     # Reads INPUT_FILE
     with open(INPUT_FILE, 'r') as file:
         for line in file:
-            evaluate(line, byte_ordering, float_size)
+            evaluate(line, byte_ordering, float_size, result_list)
 
+    # Write results to OUTPUT_FILE
+    with open(OUTPUT_FILE, 'w') as file:
+        for result in result_list:
+            file.write(result + '\n')
+
+    print(result_list)
 
 if __name__ == '__main__':
     main()
