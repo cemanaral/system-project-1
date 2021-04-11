@@ -12,6 +12,8 @@ is_big_end     = lambda symbol: symbol == 'b'
 is_little_end  = lambda symbol: symbol == 'l'
 is_negative    = lambda number: number[0] == '-'
 
+# Converts big endian hexadecimal to little endian
+big_to_little  = lambda big: ' '.join(big.split()[::-1]) 
 
 def unsigned_to_binary(number: str):
     """Converts base-10 unsigned int to binary"""   
@@ -135,7 +137,7 @@ def binary_to_hex(binary: str) -> str:
         result = result + hex_value
     
     # Adds spaces between every byte (2 hex characters)
-    return ' '.join( [result[i: i+2] for i in range(0, len(result), 2) ] )
+    return ' '.join( [result[i: i+2] for i in range(0, len(result), 2)] )
 
 
 def main():
