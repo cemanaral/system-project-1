@@ -104,6 +104,25 @@ def evaluate(line, byte_ordering, float_size):
     print("------------------------------------------------")
     
 
+def binary_to_decimal(binary: str) -> int:
+    """Converts binary to decimal"""
+    exponent = len(binary) - 1
+    decimal = 0
+
+    for bit in binary:
+        if bit == '1':
+            decimal += 2 ** exponent
+        exponent -= 1
+    
+    return decimal
+
+
+def binary_to_hex(binary: str) -> str:
+    """Converts binary number to hexadecimal"""
+    hexadecimal = ''
+
+
+
 
 def main():
     print("**Systems Programming Assignment 1**")
