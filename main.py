@@ -104,8 +104,21 @@ def fraction_to_binary(decimal_fraction: str) -> str:
     return binary
 
 # BUG: does not work with negative numbers
-def float_to_binary(decimal, float_size):
-    float_size = 4 # for testing purposes
+def float_to_binary(decimal, float_size=2):
+    """Converts real number to IEEE binary float"""
+
+    if float_size == 1:
+        size_exponent = 3
+    elif float_size == 2:
+        size_exponent = 8
+    elif float_size == 3:
+        size_exponent = 10
+    elif float_size == 4:
+        size_exponent = 12
+    else:
+        raise ValueError("Incorrect float_size")
+
+    size_mantissa = 8 * float_size - size_exponent
 
     whole, fraction = decimal.split('.')
     binary_whole = signed_to_binary(whole).lstrip('0')
@@ -136,8 +149,6 @@ def float_to_binary(decimal, float_size):
     
     exponent = old_point_index - new_point_index
     binary_exponent = signed_to_binary(str(exponent))
-    print("exponent:", exponent)
-    print("binary", binary_exponent)
 
     raw_binary_float.insert(new_point_index, '.')
     del raw_binary_float[old_point_index + 1]
