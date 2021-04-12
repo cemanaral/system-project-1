@@ -174,7 +174,7 @@ def evaluate(line, byte_ordering, float_size, result_list):
         result = binary_to_hex(unsigned_to_binary(line))    
     
     elif is_float(line):
-        result = float_to_binary(line, float_size)
+        result = binary_to_hex(float_to_binary(line, float_size))
     
     # Else, signed int
     else:
