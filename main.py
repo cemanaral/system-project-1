@@ -125,13 +125,20 @@ def float_to_binary(decimal, float_size):
     raw_binary_float = [*binary_whole] + ['.'] + [*binary_fraction]
     
     # shifts the point
+    # and finds exponent
     old_point_index = raw_binary_float.index('.')
+
     for i in range(len(raw_binary_float)):
         bit = raw_binary_float[i]
         if bit == '1':
             new_point_index = i + 1
             break
     
+    exponent = old_point_index - new_point_index
+    binary_exponent = signed_to_binary(str(exponent))
+    print("exponent:", exponent)
+    print("binary", binary_exponent)
+
     raw_binary_float.insert(new_point_index, '.')
     del raw_binary_float[old_point_index + 1]
     
