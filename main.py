@@ -85,7 +85,32 @@ def signed_to_binary(number: str):
     return ''.join(binary_list)
 
 
+def fraction_to_binary(decimal_fraction: str) -> str:
+    """Converts fraction to binary"""
+    binary = ''
+    value = float(decimal_fraction)
+    
+    is_not_zero = lambda value: int(str(value).split('.')[1]) != 0
 
+    # while fraction part of value is not zero
+    while is_not_zero(value):
+        if str(value * 2)[0] == '1':
+            binary = binary + '1' 
+        else:
+            binary = binary + '0'
+
+        value = float('0.' + str(value * 2).split('.')[1])
+
+    return binary
+
+def float_to_binary(decimal, float_size):
+    float_size = 4 # for testing purposes
+
+    whole, fraction = decimal.split('.')
+    fraction = '0.' + fraction
+
+
+    return (whole, fraction)
 
 def evaluate(line, byte_ordering, float_size, result_list):
     """Evaluates read line"""
@@ -95,7 +120,7 @@ def evaluate(line, byte_ordering, float_size, result_list):
         result = binary_to_hex(unsigned_to_binary(line))    
     
     elif is_float(line):
-        result = '_'
+        result = float_to_binary(line, float_size)
     
     # Else, signed int
     else:
@@ -164,7 +189,7 @@ def main():
         for line in file:
             evaluate(line, byte_ordering, float_size, result_list)
 
-    # Write results to OUTPUT_FILE
+    # Writes results to OUTPUT_FILE
     with open(OUTPUT_FILE, 'w') as file:
         for result in result_list:
             file.write(result + '\n')
