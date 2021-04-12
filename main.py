@@ -103,6 +103,7 @@ def fraction_to_binary(decimal_fraction: str) -> str:
 
     return binary
 
+# BUG: does not work with negative numbers
 def float_to_binary(decimal, float_size):
     float_size = 4 # for testing purposes
 
@@ -114,6 +115,13 @@ def float_to_binary(decimal, float_size):
     if binary_whole == '':
         binary_whole = '0'
     
+    # for negative floats, we need to skim the 1s
+    # from left such that there will be only one 1
+    if is_negative(decimal):
+        binary_whole = binary_whole.lstrip('0')
+        binary_whole = '1' + binary_whole.lstrip('1')
+
+
     raw_binary_float = binary_whole + '.' + binary_fraction
 
     return raw_binary_float
