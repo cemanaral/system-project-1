@@ -122,9 +122,20 @@ def float_to_binary(decimal, float_size):
         binary_whole = '1' + binary_whole.lstrip('1')
 
 
-    raw_binary_float = binary_whole + '.' + binary_fraction
-
-    return raw_binary_float
+    raw_binary_float = [*binary_whole] + ['.'] + [*binary_fraction]
+    
+    # shifts the point
+    old_point_index = raw_binary_float.index('.')
+    for i in range(len(raw_binary_float)):
+        bit = raw_binary_float[i]
+        if bit == '1':
+            new_point_index = i + 1
+            break
+    
+    raw_binary_float.insert(new_point_index, '.')
+    del raw_binary_float[old_point_index + 1]
+    
+    return ''.join(raw_binary_float)
 
 def evaluate(line, byte_ordering, float_size, result_list):
     """Evaluates read line"""
