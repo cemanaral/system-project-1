@@ -107,10 +107,15 @@ def float_to_binary(decimal, float_size):
     float_size = 4 # for testing purposes
 
     whole, fraction = decimal.split('.')
-    fraction = '0.' + fraction
+    binary_whole = signed_to_binary(whole).lstrip('0')
 
+    # to prevent decimals like 0.5 to become .5 after lstrip('0')
+    if binary_whole == '':
+        binary_whole = '0'
 
-    return (whole, fraction)
+    binary_fraction = fraction_to_binary('0.' + fraction)
+
+    return binary_whole + '.' + binary_fraction
 
 def evaluate(line, byte_ordering, float_size, result_list):
     """Evaluates read line"""
