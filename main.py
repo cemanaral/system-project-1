@@ -108,14 +108,15 @@ def float_to_binary(decimal, float_size):
 
     whole, fraction = decimal.split('.')
     binary_whole = signed_to_binary(whole).lstrip('0')
+    binary_fraction = fraction_to_binary('0.' + fraction)
 
     # to prevent decimals like 0.5 to become .5 after lstrip('0')
     if binary_whole == '':
         binary_whole = '0'
+    
+    raw_binary_float = binary_whole + '.' + binary_fraction
 
-    binary_fraction = fraction_to_binary('0.' + fraction)
-
-    return binary_whole + '.' + binary_fraction
+    return raw_binary_float
 
 def evaluate(line, byte_ordering, float_size, result_list):
     """Evaluates read line"""
