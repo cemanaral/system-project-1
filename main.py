@@ -104,6 +104,7 @@ def fraction_to_binary(decimal_fraction: str) -> str:
     return binary
 
 # BUG: does not work with negative numbers
+# TODO: rounding
 def float_to_binary(decimal, float_size=2):
     """Converts real number to IEEE binary float"""
 
@@ -119,6 +120,7 @@ def float_to_binary(decimal, float_size=2):
         raise ValueError("Incorrect float_size")
 
     size_mantissa = 8 * float_size - size_exponent
+
 
     whole, fraction = decimal.split('.')
     binary_whole = signed_to_binary(whole).lstrip('0')
@@ -152,8 +154,17 @@ def float_to_binary(decimal, float_size=2):
 
     raw_binary_float.insert(new_point_index, '.')
     del raw_binary_float[old_point_index + 1]
+     
+    # finds E, and bias
+    bias = 2**(size_exponent-1) - 1
+    E = exponent + bias  # unsigned value of exponent
+    final_binary_exponent =  unsigned_to_binary(str(E)).lstrip('0')
+    sign_bit = 1 if is_negative(decimal) else 0
+    mantissa = ''.join(raw_binary_float).split('.')[1]
+    print("final binary exponent", final_binary_exponent)
     
-    return ''.join(raw_binary_float)
+    return str(sign_bit) + final_binary_exponent + mantissa
+
 
 def evaluate(line, byte_ordering, float_size, result_list):
     """Evaluates read line"""
